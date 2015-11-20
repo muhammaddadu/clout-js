@@ -1,6 +1,6 @@
 {
   "name": "clout-js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Clout Javascript Framework",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "mysql": "^2.9.0",
     "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
+    "q": "^1.4.1",
     "sequelize": "^3.6.0",
     "sqlite3": "^3.0.10",
     "tedious": "^1.12.2"
