@@ -51,17 +51,12 @@ var clout = _.merge(emitter, {
 						return done();
 					}
 					// port, key, cert
-					// console.log('Securely using https protocol');
-
-					// Load SSL key and certificate
-					var privateKey = clout.config.https.key;
-					var certificate = clout.config.https.cert;
+					debug('Securely using https protocol');
 
 					// Create HTTPS Server
-					clout.server.https = https.createServer({
-						key: privateKey,
-						cert: certificate
-					}, clout.app).listen(process.env.SSLPORT || clout.config.https.port || 8443);
+					var payload = JSON.parse(JSON.stringify(clout.config.https));
+					delete payload.port;
+					clout.server.https = https.createServer(payload, clout.app).listen(process.env.SSLPORT || clout.config.https.port || 8443);
 
 					debug('https server started on port %s', clout.server.https.address().port);
 					done();
