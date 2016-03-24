@@ -15,6 +15,7 @@ var path = require('path'),
 var clout = _.merge(emitter, {
 	express: express,
 	app: express(), // initialize express
+	logger: undefined,
 	appDir: undefined,
 	config: undefined,
 	models: undefined,
@@ -31,7 +32,7 @@ var clout = _.merge(emitter, {
 				function modelSync(next) {
 					var sequelize = clout.sequelize;
 					if (!sequelize) {
-						next();
+						return next();
 					}
 					// syncronize sequelize
 					debug('syncronizing sequelize');
@@ -90,6 +91,7 @@ module.exports = clout;
 	debug('config: %s', JSON.stringify(clout.config));
 	(require('./lib/middleware'))(clout); // load custom middleware
 	(require('./lib/models'))(clout); // load models
+	(require('./lib/logger'))(clout); // load models
 
 	// initialize at the end of the current stack
 	process.nextTick(function () {
