@@ -87,6 +87,8 @@ module.exports = clout;
 	debug('initializing');
 	module.parent && (clout.appDir = path.dirname(module.parent.filename)); // define application dir
 	debug('appDir: %s', clout.appDir);
+	clout.appDir && (clout.modulesDir = path.join(clout.appDir, 'modules')) && fs.existsSync(clout.modulesDir) || (clout.modulesDir = null);
+	debug('modulesDir: %s', clout.modulesDir);
 	clout.config = require('./lib/config'); // load config
 	debug('config: %s', JSON.stringify(clout.config));
 	(require('./lib/middleware'))(clout); // load custom middleware
