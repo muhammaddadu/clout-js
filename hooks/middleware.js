@@ -1,0 +1,97 @@
+/*!
+ * clout-js
+ * Copyright(c) 2015 - 2016 Muhammad Dadu
+ * MIT Licensed
+ */
+const
+	fs = require('fs-extra'),
+	path = require('path'),
+	express = require('express'),
+	debug = require('debug')('clout:hook:middleware'),
+	compress = require('compression')
+	bodyParser = require('body-parser'),
+	cookieParser = require('cookie-parser');
+
+module.exports = {
+	initialize: {
+		event: 'start',
+		priority: 1,
+		fn: function (next) {
+			this.app = express();
+			this.app.set('x-powered-by', 'clout-js');
+			this.app.set('env', this.config.env);
+			// request parsing
+			this.app.use(bodyParser.json());
+			debug('loaded bodyParser.json()');
+			this.app.use(bodyParser.urlencoded({
+				extended: false
+			}));
+			debug('loaded bodyParser.urlencoded()');
+			this.app.use(bodyParser.text({}));
+			debug('loaded bodyParser.text()');
+			this.app.use(bodyParser.raw({}));
+			debug('loaded bodyParser.raw()');
+			this.app.use(cookieParser());
+			next();
+		}
+	},
+	compress: {
+		event: 'start',
+		priority: 'MIDDLEWARE',
+		fn: function (next) {
+			debug('appending compression to middleware');
+			this.app.use(compress());
+			next();
+		}
+	},
+	session: {
+		event: 'start',
+		priority: 'MIDDLEWARE',
+		fn: function (next) {
+			
+			next();
+		}
+	},
+	publicFolders: {
+		event: 'start',
+		priority: 'MIDDLEWARE',
+		fn: function (next) {
+			var self = this;
+			function useDir(dir) {
+				if (!fs.existsSync(dir)) { return; }
+				self.app.use(express.static(dir));
+			}
+			// application public folder
+			useDir(path.join(this.rootDirectory, 'public'));
+			// modules
+			this.modules.forEach(function (module) {
+				useDir(path.join(module.path, 'public'));
+			});
+			// clout public folder
+			useDir(path.join(__dirname, '../resources/public'));
+			next();
+		}
+	},
+	views: {
+		event: 'start',
+		priority: 'MIDDLEWARE',
+		fn: function (next) {
+			var views = [];
+			function useDir(dir) {
+				if (!fs.existsSync(dir)) { return; }
+				views.push(dir);
+			}
+			// application public folder
+			useDir(path.join(this.rootDirectory, 'views'));
+			// modules
+			this.modules.forEach(function (module) {
+				useDir(path.join(module.path, 'views'));
+			});
+			// clout public folder
+			useDir(path.join(__dirname, '../resources/views'));
+			// set views
+			this.app.set('views', views);
+			next();
+		}
+	}
+};
