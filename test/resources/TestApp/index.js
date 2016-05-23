@@ -3,4 +3,5 @@
  * Copyright(c) 2015 - 2016 Muhammad Dadu
  * MIT Licensed
  */
-require('clout-js');
+var clout = require('clout-js');
+clout.start();

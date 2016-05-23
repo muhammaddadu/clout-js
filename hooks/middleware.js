@@ -7,7 +7,7 @@ const
 	fs = require('fs-extra'),
 	path = require('path'),
 	express = require('express'),
-	debug = require('debug')('clout:hook:middleware'),
+	debug = require('debug')('clout:hook/middleware'),
 	compress = require('compression')
 	bodyParser = require('body-parser'),
 	cookieParser = require('cookie-parser'),
@@ -73,6 +73,7 @@ module.exports = {
 			var self = this;
 			function useDir(dir) {
 				if (!fs.existsSync(dir)) { return; }
+				debug('appending public dir %s', dir);
 				self.app.use(express.static(dir));
 			}
 			// application public folder
@@ -93,6 +94,7 @@ module.exports = {
 			var views = [];
 			function useDir(dir) {
 				if (!fs.existsSync(dir)) { return; }
+				debug('appending views dir %s', dir);
 				views.push(dir);
 			}
 			// application public folder
@@ -106,6 +108,41 @@ module.exports = {
 			// set views
 			this.app.set('views', views);
 			next();
+		}
+	},
+	response: {
+		event: 'start',
+		priority: 'MIDDLEWARE',
+		fn: function (next) {
+			next();
+			this.app.use(function (req, resp, next) {
+				var acceptType = req.accepts(['json', 'html']);
+				console.log(acceptType);
+				next();
+			});
+		}
+	},
+	leastButNotLast: {
+		event: 'start',
+		fn: function (next) {
+			next();
+			// TODO:-
+			// - Implement response then implement this
+
+			// If their is an error
+			this.app.use(function(err, req, res, next) {
+				// If the error object doesn't exists
+				if (!err) { return next(); }
+				
+				req.logger.error(err.stack);
+				res.status('500');
+				res.send(err);
+			});
+
+			// Assume 404 since no middleware responded
+			this.app.use(function(req, res) {
+				res.send('NOT FOUND');
+			});
 		}
 	}
 };
