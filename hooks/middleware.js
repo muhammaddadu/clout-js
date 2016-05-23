@@ -110,14 +110,58 @@ module.exports = {
 			next();
 		}
 	},
+	layoutEngine: {
+		event: 'start',
+		priority: 'MIDDLEWARE',
+		fn: function (next) {
+			this.app.set('view engine', 'ejs');
+			next();
+		}
+	},
 	response: {
 		event: 'start',
 		priority: 'MIDDLEWARE',
 		fn: function (next) {
+			var httpResponseMap = this.config.httpResponseMap;
 			next();
+			// TODO:-
+			// - refactor to add support for more file types (CSV, XML)
+			// - success: false should point to an error html response
 			this.app.use(function (req, resp, next) {
-				var acceptType = req.accepts(['json', 'html']);
-				console.log(acceptType);
+				this.responseType = req.accepts(['json', 'html']);
+				if (resp.ok) { return next(); }
+				// load responses
+				var self = this,
+					methods = Object.keys(httpResponseMap);
+
+				methods.forEach(function (methodName) {
+					var method = httpResponseMap[methodName];
+					resp[methodName] = function (payload) {
+						switch (self.responseType) {
+							case 'json':
+								resp
+									.type('json')
+									.status(method.code)
+									.send(JSON.stringify(_.merge({
+										data: payload
+									}, {
+										code: method.code,
+										success: method.method
+									})));
+							break;
+							case 'html':
+								resp
+									.status(method.code)
+									.send(payload)
+							break;
+							default:
+								resp
+									.status(method.code)
+									.send(payload);
+							break;
+						} 
+					};
+				});
 				next();
 			});
 		}
@@ -126,22 +170,16 @@ module.exports = {
 		event: 'start',
 		fn: function (next) {
 			next();
-			// TODO:-
-			// - Implement response then implement this
-
-			// If their is an error
-			this.app.use(function(err, req, res, next) {
-				// If the error object doesn't exists
+			this.app.use(function (err, req, resp, next) {
 				if (!err) { return next(); }
 				
 				req.logger.error(err.stack);
-				res.status('500');
-				res.send(err);
+				resp.error(err);
 			});
 
 			// Assume 404 since no middleware responded
-			this.app.use(function(req, res) {
-				res.send('NOT FOUND');
+			this.app.use(function (req, resp) {
+				resp.notFound();
 			});
 		}
 	}
