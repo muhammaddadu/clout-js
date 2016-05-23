@@ -10,7 +10,8 @@ const
 	debug = require('debug')('clout:hook:middleware'),
 	compress = require('compression')
 	bodyParser = require('body-parser'),
-	cookieParser = require('cookie-parser');
+	cookieParser = require('cookie-parser'),
+	session = require('express-session');
 
 module.exports = {
 	initialize: {
@@ -48,7 +49,19 @@ module.exports = {
 		event: 'start',
 		priority: 'MIDDLEWARE',
 		fn: function (next) {
-			
+			var sessionConf = this.config.session || {};
+			if (!sessionConf.secret) {
+				this.logger.warn('session.secret is undefined');
+				sessionConf.secret = '1c6bf8c5cef18097a5389c3ca6d73328';
+			}
+			if (!sessionConf.hasOwnProperty('resave')) {
+				sessionConf.resave = true;
+			}
+			if (!sessionConf.hasOwnProperty('saveUninitialized')) {
+				sessionConf.saveUninitialized = false;
+			}
+			this.app.session(sessionConf);
+			this.app.use(this.app.session);
 			next();
 		}
 	},
