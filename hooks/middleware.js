@@ -60,7 +60,8 @@ module.exports = {
 			if (!sessionConf.hasOwnProperty('saveUninitialized')) {
 				sessionConf.saveUninitialized = false;
 			}
-			this.app.session(sessionConf);
+			this.config.session = sessionConf;
+			this.app.session = session(sessionConf);
 			this.app.use(this.app.session);
 			next();
 		}
