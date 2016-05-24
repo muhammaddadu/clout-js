@@ -11,6 +11,7 @@ Changelog
 ##### Changes
 - Complete re-architecture of the framework internals
 - Updated GLOB patterns for configuration (e.g now supports naming conventions like `development.js`, `something.default.js`.)
+- Sequelize models, redis session & flash cookies have been moved to seperate modules
 
 ## 0.2.0
 ##### Features:
