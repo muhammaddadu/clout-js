@@ -16,17 +16,8 @@ module.exports = {
 		fn: function (next) {
 			debug('initialize models');
 			this.models = {};
-			Object.defineProperty(this, 'model', {
-				get: function (name) {
-					return this.models[name];
-				},
-				set: function (key, value) {
-					this.models[key] = value;
-				}
-			})
 			// append to middleware
 			this.app.request.models = this.models;
-			this.app.request.model = this.model;
 			next();
 		}
 	},
@@ -45,7 +36,7 @@ module.exports = {
 					if (self.models.hasOwnProperty(modelName)) {
 						throw new Error('Cannot load model `' + modelName + '` as it already exists');
 					}
-					self.model.set(fileName, require(dir));
+					self.models[fileName] = require(dir);
 				});
 				deferred.resolve();
 				return deferred.promise;
