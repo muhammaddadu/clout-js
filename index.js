@@ -18,3 +18,4 @@ if (!applicationDirectory) {
 }
 
 module.exports = new Clout(applicationDirectory);
+module.exports.utils = require('./lib/utils');
