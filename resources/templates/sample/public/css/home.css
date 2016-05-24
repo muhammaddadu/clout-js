@@ -1,0 +1,42 @@
+/**
+ * Home css
+ */
+header {
+  margin-top: 50px; }
+
+header #title {
+  background-color: #2E8CFF;
+  text-align: center;
+  padding: 100px 0px; }
+
+header #title h1, header #title p {
+  color: white; }
+
+header #title h1 {
+  font-size: 76px;
+  line-height: 70px; }
+
+header #title p {
+  font-size: 26px;
+  line-height: 30px; }
+
+header #item {
+  background-color: #E8E8E8;
+  text-align: center;
+  padding: 27px 0px;
+  margin-bottom: 15px; }
+
+header #item i {
+  font-size: 66px;
+  width: 100%;
+  line-height: 60px; }
+
+header #item span {
+  width: 100%;
+  line-height: 40px; }
+
+header h2 {
+  font-size: 26px;
+  padding: 30px 0px 40px; }
+
+/*# sourceMappingURL=home.css.map */

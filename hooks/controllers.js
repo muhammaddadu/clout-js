@@ -15,10 +15,11 @@ module.exports = {
 		priority: 'CONTROLLER',
 		fn: function (next) {
 			var self = this;
+			try {
 			function loadController(dir) {
 				var name = dir.split('controllers/')[1].replace('.js', '');
 				debug('loading controller %s', name);
-				var controller = require(filePath);
+				var controller = require(dir);
 
 				if (!controller.path) { return; }
 				var hooks = controller.hooks || [],
@@ -72,6 +73,7 @@ module.exports = {
 					next();
 				}, next);
 			});
+		}catch(e) {console.log(e);}
 		}
 	}
 };

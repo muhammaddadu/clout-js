@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <%typeof meta !== 'undefined' && meta.length > 0 && meta.forEach(function (item){%><meta <%-(item.name ? 'name' : 'property')%>=”<%-item.property || item.name%>” content=”<%-item.content%>”/>
+    <%});%>
+    <title><%-title%> | Cloud Tech</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/default.css">
+    <%(typeof css === 'object') && css.forEach(function (location) {%>
+    <link href="<%-location%>" rel="stylesheet" /><%});%>
+</head>
+<body>
+	<header class="container">
+		<div id="title" class="col-md-6">
+			<h1 class="animated bounceIn">clout-js</h1>
+			<p class="animated fadeIn">Cloud Tech</p>
+		</div>
+		<div id="navigation" class="hidden-sm-down">
+			<%Object.keys(navigation).forEach(function (key) {%>
+				<a href="<%-navigation[key].href%>">
+					<div class="col-md-2">
+						<div id="item">
+							<i class="<%-navigation[key].icon%>"></i>
+							<span><%-navigation[key].title%></span>
+						</div>
+					</div>
+				</a>
+			<%});%>
+		</div>
+		<div class="clear">&nbsp;</div>
+		<h2>Clean, simplistic, enterprise grade full-stack NodeJS framework</h2>
+		<hr />
+	</header>
+    <div class="container">
+        <footer>
+            <span>&copy; copyright 2016</span>&nbsp; - &nbsp;
+            <a href="<%-package.repository.url%>">source code <i class="fa fa-github"></i></a>
+        </footer>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lettering.js/0.7.0/jquery.lettering.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/textillate/0.4.0/jquery.textillate.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script src="/js/default.js"></script>
+    <%(typeof javascript === 'object') && javascript.forEach(function (location) {%>
+    <script src="<%-location%>"></script><%});%>
+</body>
+</html>
