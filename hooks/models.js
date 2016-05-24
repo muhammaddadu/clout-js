@@ -14,6 +14,7 @@ module.exports = {
 		event: 'start',
 		priority: 'MODEL',
 		fn: function (next) {
+			debug('initialize models');
 			this.models = {};
 			Object.defineProperty(this, 'model', {
 				get: function (name) {
@@ -49,7 +50,7 @@ module.exports = {
 				deferred.resolve();
 				return deferred.promise;
 			}
-
+			debug('loading models');
 			// 1) load module hooks
 			async.each(this.modules, function (module, next) {
 				loadModelsFromDir(path.join(module.path, 'models')).then(function () {
