@@ -19,8 +19,10 @@ module.exports = {
 		priority: 1,
 		fn: function (next) {
 			this.app = express();
-			this.app.set('x-powered-by', 'clout-js');
+			this.app.set('x-powered-by', 'Clout-JS');
 			this.app.set('env', this.config.env);
+			this.app.set('server', 'Clout-JS v' + this.package.version);
+
 			// request parsing
 			this.app.use(bodyParser.json());
 			debug('loaded bodyParser.json()');
@@ -110,11 +112,13 @@ module.exports = {
 			next();
 		}
 	},
-	layoutEngine: {
+	request: {
 		event: 'start',
 		priority: 'MIDDLEWARE',
 		fn: function (next) {
-			this.app.set('view engine', 'ejs');
+			// TODO:-
+			// - Support converting form data
+			// - Support multipart data
 			next();
 		}
 	},
@@ -122,48 +126,42 @@ module.exports = {
 		event: 'start',
 		priority: 'MIDDLEWARE',
 		fn: function (next) {
-			var httpResponseMap = this.config.httpResponseMap;
-			next();
+			var httpResponseMap = this.config.httpResponseMap,
+				methods = Object.keys(httpResponseMap);
+
 			// TODO:-
 			// - refactor to add support for more file types (CSV, XML)
 			// - success: false should point to an error html response
-			this.app.use(function (req, resp, next) {
-				this.responseType = req.accepts(['json', 'html']);
-				if (resp.ok) { return next(); }
-				// load responses
-				var self = this,
-					methods = Object.keys(httpResponseMap);
-
-				methods.forEach(function (methodName) {
-					var method = httpResponseMap[methodName];
-					resp[methodName] = function (payload) {
-						switch (self.responseType) {
-							case 'json':
-								resp
-									.type('json')
-									.status(method.code)
-									.send(JSON.stringify(_.merge({
-										data: payload
-									}, {
-										code: method.code,
-										success: method.method
-									})));
-							break;
-							case 'html':
-								resp
-									.status(method.code)
-									.send(payload)
-							break;
-							default:
-								resp
-									.status(method.code)
-									.send(payload);
-							break;
-						} 
-					};
-				});
-				next();
+			methods.forEach(function (methodName) {
+				var method = httpResponseMap[methodName];
+				express.response[methodName] = function (data) {
+					var self = this,
+						format = {},
+						payload = _.merge({
+							data: data
+						}, {
+							code: method.code,
+							success: method.method
+						});
+					format.text = 
+					format.json = function () {
+						self
+							.type('json')
+							.status(method.code)
+							.send(JSON.stringify(payload));
+					}
+					format.html = function () {
+						!method.render && (method.render = 'htmljson');
+						self
+							.status(method.code)
+							.render(method.render, {
+								data: payload
+							});
+					}
+					this.format(format);
+				};
 			});
+			next();
 		}
 	},
 	leastButNotLast: {

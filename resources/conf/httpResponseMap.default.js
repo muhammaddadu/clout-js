@@ -23,19 +23,23 @@ module.exports = {
         },
         badRequest : {
             success: false,
-            code: 400
+            code: 400,
+            render: 'error/400',
         },
         notFound : {
             success: false,
-            code: 404
+            code: 404,
+            render: 'error/404',
         },
         error : {
             success: false,
-            code: 400
+            code: 500,
+            render: 'error/500',
         },
         unauthorized : {
             success: false,
-            code: 401
+            code: 401,
+            render: 'error/401',
         }
     }
 };
