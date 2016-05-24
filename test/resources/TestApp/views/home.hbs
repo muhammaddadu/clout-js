@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{{title}}</title>
+	<meta name="author" content="Muhammad Dadu">
+</head>
+<body>
+	<p>This page utilizes HBS templating engine.</p>
+	<button onclick="getJokes($('#jokes'))">Get Jokes</button>
+	<div id="jokes""></div>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jokes.js"></script>
+	<script type="text/javascript">
+		getJokes($('#jokes'));
+	</script>
+</body>
+</html>
