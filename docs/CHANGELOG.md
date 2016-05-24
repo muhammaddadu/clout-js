@@ -5,6 +5,8 @@ Changelog
 - Ability to inject code into the runtime (Easily extend the framework using hooks)
 - Modules have full access to the runtime
 - Modules can be installed via npm
+- JSON visualizer when browsing APIs via browser
+- Support for multiple layout engines when rendering pages
 
 ##### Changes
 - Complete re-architecture of the framework internals
