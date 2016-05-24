@@ -41,6 +41,7 @@ module.exports = {
 				deferred.resolve();
 				return deferred.promise;
 			}
+
 			debug('loading models');
 			// 1) load module hooks
 			async.each(this.modules, function (module, next) {
