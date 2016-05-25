@@ -7,21 +7,42 @@
 	<meta name="author" content="">
 	<title>JSON viewer | CloutJS</title>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/clout-js/css/htmljson.css">
-</head>
+	<link href="/clout-js/css/jsoneditor.min.css" rel="stylesheet" type="text/css">
 <body>
+	<header id="title" class='well'>
+		<img src="/clout-js/img/clout_logo.png" align="right" height="70px" />
+		<h2>Visualize JSON Objects in Readable Format</h2>
+	</header>
 	<div class="container-fluid">
-		<div class='well'>
-			<h2>Visualize JSON Objects in Readable Format</h2>
+		<div class="col-md-6">
+			<div id="jsoneditor" style="height:600px"></div>
 		</div>
-		<div style="margin-top:20px;">
-			<div id="visualize"></div>
+		<div class="col-md-6">
+			<div id="visualize" style="height:600px"></div>
 		</div>
 	</div>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="/clout-js/js/json2html.js"></script>
-	<script src="/clout-js/js/jquery.json2html.js"></script>
-	<script>var jsonData = <%-JSON.stringify(data)%></script>
-	<script src="/clout-js/js/htmljson.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+	<script src="/clout-js/js/jsoneditor.min.js"></script>
+	<script type="text/javascript">
+		var data = <%-JSON.stringify(data)%>,
+			visualizeDiv = document.getElementById('visualize'),
+			jsoneditorDiv = document.getElementById('jsoneditor'),
+			visualize = new JSONEditor(visualizeDiv, {
+				mode: 'tree'
+			}, data),
+			jsoneditor = new JSONEditor(jsoneditorDiv, {
+				mode: 'code'
+			}, data);
+
+		function doSizing() {
+			var windowHeight = $(window).height(),
+				headerHeight = $('#title').height(),
+				heightWanted = (windowHeight - headerHeight - 80);
+			visualizeDiv.style.height = heightWanted + 'px';
+			jsoneditorDiv.style.height = heightWanted + 'px';
+		}
+		doSizing();
+		$(window).resize(doSizing);
+	</script>
 </body>
 </html>
