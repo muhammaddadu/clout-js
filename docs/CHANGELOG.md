@@ -1,5 +1,12 @@
 Changelog
 ==============
+## 1.0.5
+##### Features:
+- Ability to add extensions to APIs to change the content-type returned.
+- Improved JSON visualizer
+- Modules can now load Modules
+- Various bug fixes
+
 ## 1.0.0
 ##### Features:
 - Ability to inject code into the runtime (Easily extend the framework using hooks)

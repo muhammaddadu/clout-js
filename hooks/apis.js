@@ -11,6 +11,11 @@ const
 	express = require('express'),
 	router = express.Router();
 
+const ACCEPT_TYPES = {
+	json: 'application/json',
+	html: 'text/html'
+};
+
 module.exports = {
 	initialize: {
 		event: 'start',
@@ -27,6 +32,9 @@ module.exports = {
 					if (!api.path) {
 						return;
 					}
+					// allow .ext
+					api.path += '(.:acceptType)?';
+
 					var hooks = api.hooks || [],
 						method = api.method ? api.method.toLowerCase() : 'all';
 
@@ -53,6 +61,12 @@ module.exports = {
 					if (api.fn) {
 						debug('loaded endpoint [%s] /api%s', method, api.path);
 						router[method](api.path, function (req) {
+							// allow .ext
+							if (req.params.acceptType && ACCEPT_TYPES[req.params.acceptType]) {
+								var acceptType = ACCEPT_TYPES[req.params.acceptType];
+								debug('acceptType', acceptType);
+								req.headers['accept'] = acceptType + ',' + req.headers['accept'];
+							};
 							debug('loading api %s:%s', group, apiName);
 							api.fn.apply(this, arguments);
 						});
