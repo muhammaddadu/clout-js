@@ -28,33 +28,29 @@ module.exports = {
 			var self = this;
 
 			function loadModelsFromDir(dir) {
-				var deferred = Q.defer(),
-					dirs = utils.getGlobbedFiles(path.join(dir, '**/**.js'));
+				var dirs = utils.getGlobbedFiles(path.join(dir, '**/**.js'));
 				dirs.forEach(function (dir) {
-					var modelName = dir.split('model/')[1].replace('.js', '');
+					var modelName = dir.split('models/')[1].replace('.js', '');
 					debug('loading model %s', modelName);
 					if (self.models.hasOwnProperty(modelName)) {
 						throw new Error('Cannot load model `' + modelName + '` as it already exists');
 					}
-					self.models[fileName] = require(dir);
+					try {
+						self.models[modelName] = require(dir);
+					} catch (e) {
+						throw new Error('Error loading model `' + modelName + '`: ' + e)
+					}
 				});
-				deferred.resolve();
-				return deferred.promise;
 			}
 
 			debug('loading models');
 			// 1) load module hooks
-			async.each(this.modules, function (module, next) {
-				loadModelsFromDir(path.join(module.path, 'models')).then(function () {
-					next(null);
-				}, next);
-			}, function done(err) {
-				if (err) { throw new Error(err); }
-				// 2) load application hooks
-				loadModelsFromDir(path.join(self.rootDirectory, 'models')).then(function () {
-					next();
-				}, next);
+			this.modules.forEach(function (module) {
+				loadModelsFromDir(path.join(module.path, 'models'));
 			});
+			// 2) load application hooks
+			loadModelsFromDir(path.join(self.rootDirectory, 'models'));
+			next();
 		}
 	}
 };

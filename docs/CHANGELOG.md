@@ -1,5 +1,17 @@
 Changelog
 ==============
+## 1.0.9
+##### Changes
+- Bug fixes
+
+## 1.0.8
+##### Features:
+- Appended clout to request
+- Added config to locals
+
+##### Changes
+- Bug fixes
+
 ## 1.0.5
 ##### Features:
 - Ability to add extensions to APIs to change the content-type returned.
