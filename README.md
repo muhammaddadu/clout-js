@@ -60,3 +60,12 @@ module.exports = {
 	}
 }
 ```
+
+### Enviromental Config
+- development (DEFAULT)
+- <enviroment>
+
+These enviromental variable can be set using NODE_ENV=<enviroment>.
+
+These configuration files can be stored in ```/conf``` with <name>.<env>.js with default.<env>.js always 
+
