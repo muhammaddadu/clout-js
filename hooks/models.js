@@ -38,7 +38,7 @@ module.exports = {
 					try {
 						self.models[modelName] = require(dir);
 					} catch (e) {
-						throw new Error('Error loading model `' + modelName + '`: ' + e)
+						throw new Error('Error loading model `' + modelName + '`: ' + e);
 					}
 				});
 			}
