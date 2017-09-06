@@ -57,15 +57,18 @@ module.exports = {
 		fn: function (next) {
 			let sessionConf = this.config.session || {};
 
-			!sessionConf.secret
-				&& this.logger.warn('session.secret is undefined')
-				&& (sessionConf.secret = '1c6bf8c5cef18097a5389c3ca6d73328');
+			if (!sessionConf.secret) {
+				this.logger.warn('session.secret is undefined');
+				sessionConf.secret = '1c6bf8c5cef18097a5389c3ca6d73328';
+			}
 
-			!sessionConf.resave
-				&& (sessionConf.resave = true);
+			if (!sessionConf.resave) {
+				sessionConf.resave = true;
+			}
 
-			!sessionConf.saveUninitialized
-				&& (sessionConf.saveUninitialized = false);
+			if (!sessionConf.saveUninitialized) {
+				sessionConf.saveUninitialized = false;
+			}
 
 			this.config.session = sessionConf;
 			this.app.session = session(sessionConf);
