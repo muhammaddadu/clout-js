@@ -14,10 +14,10 @@ module.exports = {
 		fn: function (next) {
 			var self = this,
 				port = process.env.PORT || this.config.http && this.config.http.port || 8080;
-			this.server.http = this.app.listen(port, function () {
-				debug('http server started on port %s', self.server.http.address().port);
-				next();
-			});
+				this.server.http = this.app.listen(port, function () {
+					debug('http server started on port %s', self.server.http.address().port);
+					next();
+				});
 		}
 	},
 	https: {

@@ -164,7 +164,7 @@ module.exports = {
 				let method = httpResponseMap[methodName];
 
 				if (typeof express.response[methodName] !== 'undefined') {
-					this.logger.warn('overiding express response method `%s`', methodName);
+					debug('overiding express response method `%s`', methodName);
 				}
 
 				express.response[methodName] = function (data) {
