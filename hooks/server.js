@@ -15,7 +15,9 @@ module.exports = {
 			var self = this,
 				port = process.env.PORT || this.config.http && this.config.http.port || 8080;
 				this.server.http = this.app.listen(port, function () {
-					debug('http server started on port %s', self.server.http.address().port);
+					if (self.server.http.address()) {
+						debug('http server started on port %s', self.server.http.address().port);
+					}
 					next();
 				});
 		}
@@ -28,7 +30,9 @@ module.exports = {
 			debug('Securely using https protocol');
 			var port = process.env.SSLPORT || this.config.https.port || 8443,
 				conf = this.config.https;
-			delete conf.port;
+
+			if (!conf) { return next(); }
+
 			this.server.https = https.createServer(conf, this.app).listen();
 			debug('https server started on port %s', this.server.https.address().port);
 			next();
