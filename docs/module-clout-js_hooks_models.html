@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Global</title>
+    <title>JSDoc: Module: clout-js/hooks/models</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Global</h1>
+    <h1 class="page-title">Module: clout-js/hooks/models</h1>
 
     
 
@@ -28,7 +28,8 @@
 
 <header>
     
-        <h2></h2>
+        
+            
         
     
 </header>
@@ -37,8 +38,24 @@
     <div class="container-overview">
     
         
+            <div class="description">Models hooks</div>
+        
 
         
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <dl class="details">
@@ -68,6 +85,11 @@
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="hooks_models.js.html">hooks/models.js</a>, <a href="hooks_models.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
 
     
 
@@ -75,6 +97,22 @@
 
     
 </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         
@@ -94,25 +132,17 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Members</h3>
 
         
             
+<h4 class="name" id=".initialize"><span class="type-signature">(static) </span>initialize<span class="type-signature"></span></h4>
 
-    
-
-    
-    <h4 class="name" id="loadAPI"><span class="type-signature"></span>loadAPI<span class="signature">(filePath)</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
 
 <div class="description">
-    Load APIs from a file
+    initialize models
 </div>
 
 
@@ -121,12 +151,11 @@
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
 
-
-    <h5>Parameters:</h5>
     
 
-<table class="params">
+<table class="props">
     <thead>
     <tr>
         
@@ -148,13 +177,13 @@
 
         <tr>
             
-                <td class="name"><code>filePath</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">event</span>
 
 
             
@@ -164,14 +193,35 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">start</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>priority</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">priority</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">MODEL</td>
         </tr>
 
     
     </tbody>
 </table>
-
-
 
 
 
@@ -205,7 +255,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="hooks_apis.js.html">hooks/apis.js</a>, <a href="hooks_apis.js.html#line22">line 22</a>
+        <a href="hooks_models.js.html">hooks/models.js</a>, <a href="hooks_models.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -221,33 +271,15 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         
             
+<h4 class="name" id=".loadModels"><span class="type-signature">(static) </span>loadModels<span class="type-signature"></span></h4>
 
-    
-
-    
-    <h4 class="name" id="loadAPIsFromDirectory"><span class="type-signature"></span>loadAPIsFromDirectory<span class="signature">(dir)</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
 
 <div class="description">
-    Finds all the .js Files inside a directory and loads it
+    load models from application paths
 </div>
 
 
@@ -256,12 +288,11 @@
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
 
-
-    <h5>Parameters:</h5>
     
 
-<table class="params">
+<table class="props">
     <thead>
     <tr>
         
@@ -283,13 +314,13 @@
 
         <tr>
             
-                <td class="name"><code>dir</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">event</span>
 
 
             
@@ -299,14 +330,35 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">start</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>priority</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">priority</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">MODEL + 2</td>
         </tr>
 
     
     </tbody>
 </table>
-
-
 
 
 
@@ -340,7 +392,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="hooks_apis.js.html">hooks/apis.js</a>, <a href="hooks_apis.js.html#line87">line 87</a>
+        <a href="hooks_models.js.html">hooks/models.js</a>, <a href="hooks_models.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -356,19 +408,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         
+    
+
     
 
     

@@ -2,6 +2,7 @@
  * clout-js
  * Copyright(c) 2015 - 2016 Muhammad Dadu
  * MIT Licensed
+ * @module clout-js/hooks/apis
  */
 const debug = require('debug')('clout:hook/apis');
 const path = require('path');

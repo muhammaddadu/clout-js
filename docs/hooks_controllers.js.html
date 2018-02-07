@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: hooks/engines.js</title>
+    <title>JSDoc: Source: hooks/controllers.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: hooks/engines.js</h1>
+    <h1 class="page-title">Source: hooks/controllers.js</h1>
 
     
 
@@ -32,101 +32,81 @@
  * MIT Licensed
  */
 /**
- * Rendering engines hooks
- * @module clout-js/hooks/engines
+ * Controllers hooks
+ * @module clout-js/hooks/controllers
  */
-const
-	debug = require('debug')('clout:hook/engines'),
-	fs = require('fs-extra'),
-	path = require('path');
+const debug = require('debug')('clout:hook/controllers');
+const utils = require('../lib/utils');
+const express = require('express');
+const router = express.Router();
 
 module.exports = {
 	initialize: {
 		event: 'start',
-		priority: 2,
+		priority: 'CONTROLLER',
 		fn: function (next) {
 			var self = this;
-			debug('initialize engines');
-			!this.app.engines &amp;&amp; (this.app.engines = {});
+			try {
+			function loadController(dir) {
+				var name = dir.split('controllers/')[1].replace('.js', '');
+				debug('loading controller %s', name);
+				var controller = require(dir);
 
-			Object.defineProperty(this.app.engines, 'add', {
-				value: function add(ext, engine) {
-					debug('adding engine %s', ext);
-					self.app.engines[ext] = engine;
-					self.app.engine(ext, engine);
-				}
-			});
+				if (!controller.path) { return; }
+				var hooks = controller.hooks || [],
+					method = controller.method ? controller.method.toLowerCase() : 'all';
 
-			next();
-		}
-	},
-	/*
-	 * Define Engines
-	 */
-	ejs: {
-		event: 'start',
-		priority: 'MIDDLEWARE',
-		fn: function (next) {
-			debug('adding ejs engine');
-			this.app.engines.add('ejs', require('ejs').__express);
-			next();
-		}
-	},
-	hbs: {
-		event: 'start',
-		priority: 'MIDDLEWARE',
-		fn: function (next) {
-			debug('adding hbs engine');
-			this.app.engines.add('hbs', require('hbs').__express);
-			next();
-		}
-	},
-	/**
-	 * Render
-	 */
-	render: {
-		event: 'start',
-		priority: 'MIDDLEWARE',
-		fn: function (next) {
-			this.app._render = this.app.render;
-			this.app.render = function (view, opts, cb) {
-				var ext = path.extname(view),
-					engines = this.engines,
-					dirs = this.get('views'),
-					queue = [],
-					found = false;
-				// if no extension, try each
-				if (!ext || !engines[ext]) {
-					Object.keys(engines).forEach(function (ext) {
-						queue.push(view + '.' + ext);
-						dirs.forEach(function (dir) {
-							queue.push(path.join(dir, view + '.' + ext));
-						});
+				// log endpoint request
+				router[method](controller.path, function (req, res, next) {
+					req.logger.info('Endpoint [%s] %s', req.method, req.path);
+					debug('Endpoint [%s] %s', req.method, req.path);
+					next();
+				});
+
+				// load hook first
+				hooks.forEach(function (hook) {
+					router[method](controller.path, function (req) {
+						hook.name &amp;&amp; debug('hook:', hook.name);
+						hook.apply(this, arguments);
+					}); 
+				});
+
+				// load controller
+				if (controller.fn) {
+					debug('loaded endpoint [%s] %s', method, controller.path);
+					router[method](controller.path, function (req) {
+						debug('loading controller %s:%s', name);
+						controller.fn.apply(this, arguments);
 					});
 				}
-				// queue directly
-				queue.push(view);
-				dirs.forEach(function (dir) {
-					queue.push(path.join(dir, view));
-				});
-				// run search
-				do {
-					var dir = queue.shift();
-					if (fs.existsSync(dir)) {
-						found = true;
-						view = dir;
-					}
-				} while (!found &amp;&amp; queue.length > 0);
-				// not found
-				if (!found) {
-					return cb(new Error('Unable to find layout "' + view + '"'));
-				}
-				// do original render
-				this._render.call(this, view, opts, cb);
-			};
-			next();
+			}
+
+			function loadControllersFromDirectory(dir) {
+				var deferred = Q.defer(),
+					dirs = utils.getGlobbedFiles(path.join(dir, '**/**.js'));
+				dirs.forEach(loadController);
+				deferred.resolve();
+				return deferred.promise;
+			}
+
+			debug('loading controllers');
+			// 1) load module controllers
+			async.each(this.modules, function (module, next) {
+				loadControllersFromDirectory(path.join(module.path, 'controllers')).then(function () {
+					next(null);
+				}, next);
+			}, function done(err) {
+				if (err) { throw new Error(err); }
+				// 2) load application controllers
+				loadControllersFromDirectory(path.join(self.rootDirectory, 'controllers')).then(function () {
+					debug('attached router');
+					self.app.use('/', router);
+					next();
+				}, next);
+			});
+		}catch(e) {console.log(e);}
 		}
-	},
+	}
 };
 </code></pre>
         </article>

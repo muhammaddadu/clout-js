@@ -3,6 +3,10 @@
  * Copyright(c) 2015 - 2016 Muhammad Dadu
  * MIT Licensed
  */
+/**
+ * Models hooks
+ * @module clout-js/hooks/models
+ */
 const
 	debug = require('debug')('clout:hook/models'),
 	utils = require('../lib/utils'),
@@ -10,6 +14,11 @@ const
 	path = require('path');
 
 module.exports = {
+	/**
+	 * initialize models
+	 * @property {event} event start
+	 * @property {priority} priority MODEL
+	 */
 	initialize: {
 		event: 'start',
 		priority: 'MODEL',
@@ -21,6 +30,11 @@ module.exports = {
 			next();
 		}
 	},
+	/**
+	 * load models from application paths
+	 * @property {event} event start
+	 * @property {priority} priority MODEL + 2
+	 */
 	loadModels: {
 		event: 'start',
 		priority: 18,

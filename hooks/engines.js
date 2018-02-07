@@ -3,6 +3,10 @@
  * Copyright(c) 2015 - 2016 Muhammad Dadu
  * MIT Licensed
  */
+/**
+ * Rendering engines hooks
+ * @module clout-js/hooks/engines
+ */
 const
 	debug = require('debug')('clout:hook/engines'),
 	fs = require('fs-extra'),

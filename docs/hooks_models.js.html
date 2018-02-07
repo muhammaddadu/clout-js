@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: hooks/models.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,83 +17,88 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: hooks/models.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>Clout Javascript Framework</h1><h2>Install</h2><pre class="prettyprint source"><code>$ npm install clout-js</code></pre><h2>Project Structure</h2><pre class="prettyprint source"><code>/conf             - contains configuration w/ support for NODE_ENV
-/apis             - contains apis for the application
-/hooks            - hooks which can be invoked before an api
-/models         - contains models (native support for sequalize)
-/public         - public folder
-/controllers     - contains controllers for application</code></pre><h2>Usage</h2><h3>app.js example</h3><pre class="prettyprint source"><code>var clout = require('clout-js');
-
-clout.on('started', function () {
-    if (clout.server.https) {
-        console.info('http server started on port %s', clout.server.https.address().port);
-    }
-    if (clout.server.http) {
-        console.info('http server started on port %s', clout.server.http.address().port);
-    }
-});
-
-clout.app.use(function (req, res, next) {
-    next();
-});
-
-clout.start();</code></pre><h3>/api/ping.js example</h3><pre class="prettyprint source"><code>var clout = require('clout-js');
+        <article>
+            <pre class="prettyprint source linenums"><code>/*!
+ * clout-js
+ * Copyright(c) 2015 - 2016 Muhammad Dadu
+ * MIT Licensed
+ */
+/**
+ * Models hooks
+ * @module clout-js/hooks/models
+ */
+const
+	debug = require('debug')('clout:hook/models'),
+	utils = require('../lib/utils'),
+	Q = require('q'),
+	path = require('path');
 
 module.exports = {
-    list: {
-        path: '/ping',
-        description: 'ping service',
-        method: 'get',
-        fn: function get(req, res) {
-            res.ok('GET REQUEST');
-        }
-    },
-    publish: {
-        path: '/ping',
-        description: 'ping service',
-        method: 'post',
-        // hooks: [ auth.isLoggedIn() ],
-        fn: function post(req, res) {
-            res.ok('POST REQUEST');
-        }
-    }
-}</code></pre><h3>Enviromental Config</h3><ul>
-<li>development (DEFAULT)</li>
-<li><enviroment>
+	/**
+	 * initialize models
+	 * @property {event} event start
+	 * @property {priority} priority MODEL
+	 */
+	initialize: {
+		event: 'start',
+		priority: 'MODEL',
+		fn: function (next) {
+			debug('initialize models');
+			this.models = {};
+			// append to middleware
+			this.app.request.models = this.models;
+			next();
+		}
+	},
+	/**
+	 * load models from application paths
+	 * @property {event} event start
+	 * @property {priority} priority MODEL + 2
+	 */
+	loadModels: {
+		event: 'start',
+		priority: 18,
+		fn: function (next) {
+			var self = this;
 
-</li>
-</ul>
-<p>These enviromental variable can be set using NODE_ENV=<enviroment>.</p>
-<p>These configuration files can be stored in <code>/conf</code> with <name>.<env>.js with default.<env>.js always </p></article>
+			function loadModelsFromDir(dir) {
+				var dirs = utils.getGlobbedFiles(path.join(dir, '**/**.js'));
+				dirs.forEach(function (dir) {
+					var modelName = dir.split('models/')[1].replace('.js', '');
+					debug('loading model %s', modelName);
+					if (self.models.hasOwnProperty(modelName)) {
+						throw new Error('Cannot load model `' + modelName + '` as it already exists');
+					}
+					try {
+						self.models[modelName] = require(dir);
+					} catch (e) {
+						throw new Error('Error loading model `' + modelName + '`: ' + e);
+					}
+				});
+			}
+
+			debug('loading models');
+			// 1) load module hooks
+			this.modules.forEach(function (module) {
+				loadModelsFromDir(path.join(module.path, 'models'));
+			});
+			// 2) load application hooks
+			loadModelsFromDir(path.join(self.rootDirectory, 'models'));
+			next();
+		}
+	}
+};
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

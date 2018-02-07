@@ -3,11 +3,14 @@
  * Copyright(c) 2015 - 2016 Muhammad Dadu
  * MIT Licensed
  */
-const
-	debug = require('debug')('clout:hook/controllers'),
-	utils = require('../lib/utils'),
-	express = require('express'),
-	router = express.Router();
+/**
+ * Controllers hooks
+ * @module clout-js/hooks/controllers
+ */
+const debug = require('debug')('clout:hook/controllers');
+const utils = require('../lib/utils');
+const express = require('express');
+const router = express.Router();
 
 module.exports = {
 	initialize: {

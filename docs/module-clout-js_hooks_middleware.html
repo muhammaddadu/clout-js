@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lib/config.js</title>
+    <title>JSDoc: Module: clout-js/hooks/middleware</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,87 +17,130 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lib/config.js</h1>
+    <h1 class="page-title">Module: clout-js/hooks/middleware</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/*!
- * clout-js
- * Copyright(c) 2015 - 2016 Muhammad Dadu
- * MIT Licensed
- */
-/**
- * @module clout-js/lib/Config
- */
-const
-	path = require('path'),
-	fs = require('fs-extra'),
-	_ = require('lodash'),
-	utils = require('./utils'),
-	debug = require('debug')('clout:config');
+        
+            
+        
+    
+</header>
 
-/**
- * Creates a configuration object
- * @param {Object} defaultConf default configuration
- */
-class Config {
-	constructor(defaultConf) {
-		debug('initializing config');
-		this.env = process.env.NODE_ENV || 'development';
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Middleware hooks</div>
+        
 
-		defaultConf &amp;&amp; _.merge(this, defaultConf);
-	}
+        
+            
 
-	/**
-	 * Loads configuration
-	 * @param  {object} dir directory
-	 */
-	loadFromDir(dir) {
-		debug('loading config from dir %s', dir);
-		if (!fs.existsSync(dir)) {
-			debug('dir does not exist');
-			return;
-		}
 
-		// load configurations
-		var globDefault = '*default.js',
-			globEnv = '*' + this.env + '.js';
 
-		// 1) load default configuration
-		utils.getGlobbedFiles(path.join(dir, globDefault)).forEach( (file) => {
-			debug('loading config from: %s', file);
-			_.merge(this, require(file));
-		});
 
-		// 2) load env specific configuration
-		utils.getGlobbedFiles(path.join(dir, globEnv)).forEach( (file) => {
-			debug('loading config from: %s', file);
-			_.merge(this, require(file));
-		});
-	}
 
-	/**
-	 * Add config
-	 * @param  {array} config configuration object
-	 */
-	merge(...opts) {
-		_.merge(...[this, ...opts]);
-	}
 
-	toString() {
-		return `[clout config] ${JSON.stringify(this, null, '  ')}`;
-	}
-}
 
-module.exports = Config;
-</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="hooks_middleware.js.html">hooks/middleware.js</a>, <a href="hooks_middleware.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

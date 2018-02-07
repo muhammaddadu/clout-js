@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: hooks/server.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,83 +17,73 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: hooks/server.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>Clout Javascript Framework</h1><h2>Install</h2><pre class="prettyprint source"><code>$ npm install clout-js</code></pre><h2>Project Structure</h2><pre class="prettyprint source"><code>/conf             - contains configuration w/ support for NODE_ENV
-/apis             - contains apis for the application
-/hooks            - hooks which can be invoked before an api
-/models         - contains models (native support for sequalize)
-/public         - public folder
-/controllers     - contains controllers for application</code></pre><h2>Usage</h2><h3>app.js example</h3><pre class="prettyprint source"><code>var clout = require('clout-js');
-
-clout.on('started', function () {
-    if (clout.server.https) {
-        console.info('http server started on port %s', clout.server.https.address().port);
-    }
-    if (clout.server.http) {
-        console.info('http server started on port %s', clout.server.http.address().port);
-    }
-});
-
-clout.app.use(function (req, res, next) {
-    next();
-});
-
-clout.start();</code></pre><h3>/api/ping.js example</h3><pre class="prettyprint source"><code>var clout = require('clout-js');
+        <article>
+            <pre class="prettyprint source linenums"><code>/*!
+ * clout-js
+ * Copyright(c) 2015 - 2016 Muhammad Dadu
+ * MIT Licensed
+ */
+/**
+ * Server hooks
+ * @module clout-js/hooks/server
+ */
+const
+	debug = require('debug')('clout:hook/server'),
+	https = require('https');
 
 module.exports = {
-    list: {
-        path: '/ping',
-        description: 'ping service',
-        method: 'get',
-        fn: function get(req, res) {
-            res.ok('GET REQUEST');
-        }
-    },
-    publish: {
-        path: '/ping',
-        description: 'ping service',
-        method: 'post',
-        // hooks: [ auth.isLoggedIn() ],
-        fn: function post(req, res) {
-            res.ok('POST REQUEST');
-        }
-    }
-}</code></pre><h3>Enviromental Config</h3><ul>
-<li>development (DEFAULT)</li>
-<li><enviroment>
+	/**
+	 * http instance
+	 * @property {event} event start
+	 * @property {priority} priority 25
+	 */
+	http: {
+		event: 'start',
+		priority: 25,
+		fn: function (next) {
+			var self = this,
+				port = process.env.PORT || this.config.http &amp;&amp; this.config.http.port || 8080;
+				this.server.http = this.app.listen(port, function () {
+					if (self.server.http.address()) {
+						debug('http server started on port %s', self.server.http.address().port);
+					}
+					next();
+				});
+		}
+	},
+	/**
+	 * https instance
+	 * @property {event} event start
+	 * @property {priority} priority 25
+	 */
+	https: {
+		event: 'start',
+		priority: 25,
+		fn: function (next) {
+			if (!this.config.https) { return next(); }
+			debug('Securely using https protocol');
+			var port = process.env.SSLPORT || this.config.https.port || 8443,
+				conf = this.config.https;
 
-</li>
-</ul>
-<p>These enviromental variable can be set using NODE_ENV=<enviroment>.</p>
-<p>These configuration files can be stored in <code>/conf</code> with <name>.<env>.js with default.<env>.js always </p></article>
+			if (!conf) { return next(); }
+
+			this.server.https = https.createServer(conf, this.app).listen();
+			debug('https server started on port %s', this.server.https.address().port);
+			next();
+		}
+	}
+};
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

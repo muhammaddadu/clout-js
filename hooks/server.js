@@ -3,11 +3,20 @@
  * Copyright(c) 2015 - 2016 Muhammad Dadu
  * MIT Licensed
  */
+/**
+ * Server hooks
+ * @module clout-js/hooks/server
+ */
 const
 	debug = require('debug')('clout:hook/server'),
 	https = require('https');
 
 module.exports = {
+	/**
+	 * http instance
+	 * @property {event} event start
+	 * @property {priority} priority 25
+	 */
 	http: {
 		event: 'start',
 		priority: 25,
@@ -22,6 +31,11 @@ module.exports = {
 				});
 		}
 	},
+	/**
+	 * https instance
+	 * @property {event} event start
+	 * @property {priority} priority 25
+	 */
 	https: {
 		event: 'start',
 		priority: 25,

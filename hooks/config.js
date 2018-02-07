@@ -3,8 +3,11 @@
  * Copyright(c) 2015 - 2016 Muhammad Dadu
  * MIT Licensed
  */
-const
-	debug = require('debug')('clout:hook/config');
+/**
+ * Config hooks
+ * @module clout-js/hooks/config
+ */
+const debug = require('debug')('clout:hook/config');
 
 module.exports = {
 	middleware: {
