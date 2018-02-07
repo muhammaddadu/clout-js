@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         },
 	    jsdoc : {
 	        dist : {
-	            src: ['bin/**/*.js', 'hooks/**/*.js', 'lib/**/*.js', 'test/**/*.js', 'index.js'],
+	            src: ['bin/**/*.js', 'hooks/**/*.js', 'lib/**/*.js', 'test/**/*.js', 'index.js', 'README.md'],
 	            options: {
 	                destination: 'docs'
 	            }
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-jsdoc');
 
 	grunt.registerTask('test', 'mochaTest');
-	grunt.registerTask('jsdoc', ['mochaTest', 'jsdoc']);
+	grunt.registerTask('gendoc', ['mochaTest', 'jsdoc']);
 
 	grunt.registerTask('defualt', ['mochaTest', 'jsdoc']);
 };

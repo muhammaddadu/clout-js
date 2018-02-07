@@ -1,12 +1,13 @@
 {
   "name": "clout-js",
-  "version": "1.1.2",
+  "version": "2.0.0-alpha",
   "description": "Clean, simplistic, enterprise grade full-stack NodeJS framework",
   "main": "index.js",
   "scripts": {
     "start": "node .",
     "grunt": "grunt",
-    "test": "grunt test"
+    "test": "grunt test",
+    "gendoc": "grunt gendoc"
   },
   "keywords": [
     "framework",
@@ -15,6 +16,7 @@
   "bin": {
     "clout": "bin/clout"
   },
+  "engines" : { "node" : ">=v6.0.0" },
   "author": "Muhammad Dadu",
   "license": "MIT",
   "dependencies": {
