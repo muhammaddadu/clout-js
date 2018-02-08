@@ -15,7 +15,8 @@ module.exports = function(grunt) {
 	        dist : {
 	            src: ['bin/**/*.js', 'hooks/**/*.js', 'lib/**/*.js', 'index.js', 'README.md'],
 	            options: {
-	                destination: 'docs'
+					destination: 'docs',
+					template: './node_modules/minami'
 	            }
 	        }
 	    }

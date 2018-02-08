@@ -2,6 +2,8 @@
  * clout-js
  * Copyright(c) 2015 - 2016 Muhammad Dadu
  * MIT Licensed
+ */
+/**
  * @module clout-js/hooks/apis
  */
 const debug = require('debug')('clout:hook/apis');
@@ -17,6 +19,7 @@ const ACCEPT_TYPES = {
 
 /**
  * Load APIs from a file
+ * @private
  * @param {string} filePath
  */
 function loadAPI(filePath) {
@@ -82,6 +85,7 @@ function loadAPI(filePath) {
 
 /**
  * Finds all the .js Files inside a directory and loads it
+ * @private
  * @param {string} dir 
  */
 function loadAPIsFromDirectory(dir) {
@@ -90,6 +94,11 @@ function loadAPIsFromDirectory(dir) {
 }
 
 module.exports = {
+	/**
+	 * initialize apis from application paths
+	 * @property {event} event start
+	 * @property {priority} priority API
+	 */
 	initialize: {
 		event: 'start',
 		priority: 'API',

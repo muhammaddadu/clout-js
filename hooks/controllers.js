@@ -13,6 +13,11 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = {
+	/**
+	 * initialize controllers from application paths
+	 * @property {event} event start
+	 * @property {priority} priority CONTROLLER
+	 */
 	initialize: {
 		event: 'start',
 		priority: 'CONTROLLER',

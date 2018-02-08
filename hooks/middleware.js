@@ -20,6 +20,11 @@ const Q = require('q');
 const DEFAULT_HTML_RENDER = 'htmljson';
 
 module.exports = {
+	/**
+	 * Initialize express application
+	 * @property {event} event start
+	 * @property {priority} priority 1
+	 */
 	initialize: {
 		event: 'start',
 		priority: 1,
@@ -46,6 +51,11 @@ module.exports = {
 			next();
 		}
 	},
+	/**
+	 * attach compression mechanism
+	 * @property {event} event start
+	 * @property {priority} priority MIDDLEWARE
+	 */
 	compress: {
 		event: 'start',
 		priority: 'MIDDLEWARE',
@@ -55,6 +65,11 @@ module.exports = {
 			next();
 		}
 	},
+	/**
+	 * attach session mechanism
+	 * @property {event} event start
+	 * @property {priority} priority MIDDLEWARE
+	 */
 	session: {
 		event: 'start',
 		priority: 'MIDDLEWARE',
@@ -80,6 +95,11 @@ module.exports = {
 			next();
 		}
 	},
+	/**
+	 * attach public folders
+	 * @property {event} event start
+	 * @property {priority} priority MIDDLEWARE
+	 */
 	publicFolders: {
 		event: 'start',
 		priority: 'MIDDLEWARE',
@@ -102,6 +122,11 @@ module.exports = {
 			next();
 		}
 	},
+	/**
+	 * attach views folders
+	 * @property {event} event start
+	 * @property {priority} priority MIDDLEWARE
+	 */
 	views: {
 		event: 'start',
 		priority: 'MIDDLEWARE',
@@ -138,6 +163,11 @@ module.exports = {
 			next();
 		}
 	},
+	/**
+	 * attach clout response mechanism
+	 * @property {event} event start
+	 * @property {priority} priority MIDDLEWARE
+	 */
 	response: {
 		event: 'start',
 		priority: 'MIDDLEWARE',
@@ -201,6 +231,10 @@ module.exports = {
 			next();
 		}
 	},
+	/**
+	 * attach error handling
+	 * @property {event} event start
+	 */
 	errorHandler: {
 		event: 'start',
 		fn: function (next) {

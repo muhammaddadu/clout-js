@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home - Documentation</title>
+    <title>clout-js/hooks/apis - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,76 +29,198 @@
 
 <div id="main">
     
+    <h1 class="page-title">clout-js/hooks/apis</h1>
+    
 
     
 
 
 
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+    
+    </div>
+
     
 
-
-
-
-
-
-
-
+    
 
     
 
+     
 
-    <section class="readme">
-        <article><h1>Clout Javascript Framework</h1><h2>Install</h2><pre class="prettyprint source"><code>$ npm install clout-js</code></pre><h2>Project Structure</h2><pre class="prettyprint source"><code>/conf             - contains configuration w/ support for NODE_ENV
-/apis             - contains apis for the application
-/hooks            - hooks which can be invoked before an api
-/models         - contains models (native support for sequalize)
-/public         - public folder
-/controllers     - contains controllers for application</code></pre><h2>Usage</h2><h3>app.js example</h3><pre class="prettyprint source"><code>var clout = require('clout-js');
+    
 
-clout.on('started', function () {
-    if (clout.server.https) {
-        console.info('http server started on port %s', clout.server.https.address().port);
-    }
-    if (clout.server.http) {
-        console.info('http server started on port %s', clout.server.http.address().port);
-    }
-});
+    
+        <h3 class="subsection-title">Members</h3>
 
-clout.app.use(function (req, res, next) {
-    next();
-});
-
-clout.start();</code></pre><h3>/api/ping.js example</h3><pre class="prettyprint source"><code>var clout = require('clout-js');
-
-module.exports = {
-    list: {
-        path: '/ping',
-        description: 'ping service',
-        method: 'get',
-        fn: function get(req, res) {
-            res.ok('GET REQUEST');
-        }
-    },
-    publish: {
-        path: '/ping',
-        description: 'ping service',
-        method: 'post',
-        // hooks: [ auth.isLoggedIn() ],
-        fn: function post(req, res) {
-            res.ok('POST REQUEST');
-        }
-    }
-}</code></pre><h3>Enviromental Config</h3><ul>
-<li>development (DEFAULT)</li>
-<li><enviroment>
-
-</li>
-</ul>
-<p>These enviromental variable can be set using NODE_ENV=<enviroment>.</p>
-<p>These configuration files can be stored in <code>/conf</code> with <name>.<env>.js with default.<env>.js always </p></article>
-    </section>
+        
+            
+<div class="section-members">
+<h4 class="name" id=".initialize"><span class="type-signature">(static) </span>initialize<span class="type-signature"></span></h4>
 
 
+
+
+<div class="description">
+    initialize apis from application paths
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>event</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">start</td>
+        </tr>
+
+        
+
+    
+
+        <tr>
+            
+                <td class="name"><code>priority</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>priority</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">API</td>
+        </tr>
+
+        
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="hooks_apis.js.html">hooks/apis.js</a>, <a href="hooks_apis.js.html#line102">line 102</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

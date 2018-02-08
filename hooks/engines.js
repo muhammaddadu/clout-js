@@ -13,6 +13,11 @@ const
 	path = require('path');
 
 module.exports = {
+	/**
+	 * initialize engine mechanist
+	 * @property {event} event start
+	 * @property {priority} priority 2
+	 */
 	initialize: {
 		event: 'start',
 		priority: 2,
@@ -32,8 +37,10 @@ module.exports = {
 			next();
 		}
 	},
-	/*
-	 * Define Engines
+	/**
+	 * attach EJS engine
+	 * @property {event} event start
+	 * @property {priority} priority MIDDLEWARE
 	 */
 	ejs: {
 		event: 'start',
@@ -44,6 +51,11 @@ module.exports = {
 			next();
 		}
 	},
+	/**
+	 * attach HBS engine
+	 * @property {event} event start
+	 * @property {priority} priority MIDDLEWARE
+	 */
 	hbs: {
 		event: 'start',
 		priority: 'MIDDLEWARE',
@@ -53,8 +65,11 @@ module.exports = {
 			next();
 		}
 	},
+
 	/**
-	 * Render
+	 * attach rendering mechanism
+	 * @property {event} event start
+	 * @property {priority} priority MIDDLEWARE
 	 */
 	render: {
 		event: 'start',
