@@ -3,69 +3,72 @@ Clout Javascript Framework
 
 ## Install
 ```
-$ npm install clout-js
+$ npm install clout-js --save
 ```
 
-## Project Structure
-```
-/conf 			- contains configuration w/ support for NODE_ENV
-/apis 			- contains apis for the application
-/hooks			- hooks which can be invoked before an api
-/models 		- contains models (native support for sequalize)
-/public 		- public folder
-/controllers 	- contains controllers for application
-```
+## Module Development
+These commands should be run in this directory.
+
+### Run tests
+```npm run test```
+
+### Create documentation
+```npm run jsdoc```
+
+### Run application with this instance
+```APPLICATION_PATH=<clout-js-applcaiton> npm run start```
 
 ## Usage
-### app.js example
 ```
-var clout = require('clout-js');
-
-clout.on('started', function () {
-	if (clout.server.https) {
-		console.info('http server started on port %s', clout.server.https.address().port);
-	}
-	if (clout.server.http) {
-		console.info('http server started on port %s', clout.server.http.address().port);
-	}
-});
-
-clout.app.use(function (req, res, next) {
-	next();
-});
+const clout = require('clout-js');
 
 clout.start();
-```
-### /api/ping.js example
-```
-var clout = require('clout-js');
 
-module.exports = {
-	list: {
-		path: '/ping',
-		description: 'ping service',
-		method: 'get',
-		fn: function get(req, res) {
-			res.ok('GET REQUEST');
+clout.on('started', () => {
+	['https', 'http'].forEach((key) => {
+		let server = clout.server[key];
+		if (server) {
+			let port = server.address().port;
+			console.info('%s server started on port %s', key, port);
 		}
-	},
-	publish: {
-		path: '/ping',
-		description: 'ping service',
-		method: 'post',
-		// hooks: [ auth.isLoggedIn() ],
-		fn: function post(req, res) {
-			res.ok('POST REQUEST');
-		}
-	}
-}
+	});
+});
+
 ```
 
-### Enviromental Config
-- development (DEFAULT)
-- <enviroment>
+## Clout Application Loader default paths
+The following folders are default application searchpath.
 
-These enviromental variable can be set using NODE_ENV=<enviroment>.
+| Directory     | purpose       									|
+| ------------- | :------------------------------------------------ |
+| /conf 		| contains configuration w/ support for NODE_ENV 	|
+| /apis 		| contains apis for the application 				|
+| /hooks 		| hooks which can be invoked before an api 			|
+| /models 		| contains models (native support for sequalize) 	|
+| /public 		| public assets folder								|
+| /controllers 	| contains controllers for application 				|
 
-These configuration files can be stored in ```/conf``` with <name>.<env>.js with default.<env>.js always 
+## Enviromental Config
+```NODE_ENV=development npm run start```
 
+You can load different configuration files depending on the env variables. For example, the usage of ```NODE_ENV=development``` **(default)** would load the following configuration files into the application;
+- conf/default.js
+- conf/**.development.js
+- conf/development.js
+
+Another example is ```NODE_ENV=production``` which would load the following files;
+- conf/default.js
+- conf/**.production.js
+- conf/production.js
+
+## Clout-JS Module List
+| package-name | description |
+| ------------- | -------:|
+| **[clout-redis-session](https://github.com/clout-js-modules/clout-redis-session)** | Clout module to leverage Redis for sessions |
+| **[clout-passport](https://github.com/clout-js-modules/clout-passport)** | Clout module to implement passport |
+| **[clout-parse](https://github.com/clout-js-modules/clout-parse)** | Parse module |
+| **[clout-mongoose](https://github.com/clout-js-modules/clout-mongoose)** | Clout module to leverage mongoose for models |
+| **[clout-18n](https://github.com/clout-js-modules/clout-18n)** | Clout module to implement i18n |
+| **[clout-socket-io](https://github.com/clout-js-modules/clout-socket-io)** | Clout module to leverage socket.io |
+| **[clout-sequelize](https://github.com/clout-js-modules/clout-sequelize)** | Clout module to leverage sequelize for models |
+| **[clout-flash](https://github.com/clout-js-modules/clout-flash)** | Flash message middleware module for Clout-JS |

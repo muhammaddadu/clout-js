@@ -48,54 +48,112 @@
 
 
     <section class="readme">
-        <article><h1>Clout Javascript Framework</h1><h2>Install</h2><pre class="prettyprint source"><code>$ npm install clout-js</code></pre><h2>Project Structure</h2><pre class="prettyprint source"><code>/conf             - contains configuration w/ support for NODE_ENV
-/apis             - contains apis for the application
-/hooks            - hooks which can be invoked before an api
-/models         - contains models (native support for sequalize)
-/public         - public folder
-/controllers     - contains controllers for application</code></pre><h2>Usage</h2><h3>app.js example</h3><pre class="prettyprint source"><code>var clout = require('clout-js');
+        <article><h1>Clout Javascript Framework</h1><h2>Install</h2><pre class="prettyprint source"><code>$ npm install clout-js --save</code></pre><h2>Module Development</h2><p>These commands should be run in this directory.</p>
+<h3>Run tests</h3><p><code>npm run test</code></p>
+<h3>Create documentation</h3><p><code>npm run jsdoc</code></p>
+<h3>Run application with this instance</h3><p><code>APPLICATION_PATH=&lt;clout-js-applcaiton&gt; npm run start</code></p>
+<h2>Usage</h2><pre class="prettyprint source"><code>const clout = require('clout-js');
 
-clout.on('started', function () {
-    if (clout.server.https) {
-        console.info('http server started on port %s', clout.server.https.address().port);
-    }
-    if (clout.server.http) {
-        console.info('http server started on port %s', clout.server.http.address().port);
-    }
-});
+clout.start();
 
-clout.app.use(function (req, res, next) {
-    next();
-});
-
-clout.start();</code></pre><h3>/api/ping.js example</h3><pre class="prettyprint source"><code>var clout = require('clout-js');
-
-module.exports = {
-    list: {
-        path: '/ping',
-        description: 'ping service',
-        method: 'get',
-        fn: function get(req, res) {
-            res.ok('GET REQUEST');
+clout.on('started', () => {
+    ['https', 'http'].forEach((key) => {
+        let server = clout.server[key];
+        if (server) {
+            let port = server.address().port;
+            console.info('%s server started on port %s', key, port);
         }
-    },
-    publish: {
-        path: '/ping',
-        description: 'ping service',
-        method: 'post',
-        // hooks: [ auth.isLoggedIn() ],
-        fn: function post(req, res) {
-            res.ok('POST REQUEST');
-        }
-    }
-}</code></pre><h3>Enviromental Config</h3><ul>
-<li>development (DEFAULT)</li>
-<li><enviroment>
-
-</li>
+    });
+});</code></pre><h2>Clout Application Loader default paths</h2><p>The following folders are default application searchpath.</p>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th style="text-align:left">purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/conf</td>
+<td style="text-align:left">contains configuration w/ support for NODE_ENV</td>
+</tr>
+<tr>
+<td>/apis</td>
+<td style="text-align:left">contains apis for the application</td>
+</tr>
+<tr>
+<td>/hooks</td>
+<td style="text-align:left">hooks which can be invoked before an api</td>
+</tr>
+<tr>
+<td>/models</td>
+<td style="text-align:left">contains models (native support for sequalize)</td>
+</tr>
+<tr>
+<td>/public</td>
+<td style="text-align:left">public assets folder</td>
+</tr>
+<tr>
+<td>/controllers</td>
+<td style="text-align:left">contains controllers for application</td>
+</tr>
+</tbody>
+</table>
+<h2>Enviromental Config</h2><p><code>NODE_ENV=development npm run start</code></p>
+<p>You can load different configuration files depending on the env variables. For example, the usage of <code>NODE_ENV=development</code> <strong>(default)</strong> would load the following configuration files into the application;</p>
+<ul>
+<li>conf/default.js</li>
+<li>conf/**.development.js</li>
+<li>conf/development.js</li>
 </ul>
-<p>These enviromental variable can be set using NODE_ENV=<enviroment>.</p>
-<p>These configuration files can be stored in <code>/conf</code> with <name>.<env>.js with default.<env>.js always </p></article>
+<p>Another example is <code>NODE_ENV=production</code> which would load the following files;</p>
+<ul>
+<li>conf/default.js</li>
+<li>conf/**.production.js</li>
+<li>conf/production.js</li>
+</ul>
+<h2>Clout-JS Module List</h2><table>
+<thead>
+<tr>
+<th>package-name</th>
+<th style="text-align:right">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="https://github.com/clout-js-modules/clout-redis-session">clout-redis-session</a></strong></td>
+<td style="text-align:right">Clout module to leverage Redis for sessions</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/clout-js-modules/clout-passport">clout-passport</a></strong></td>
+<td style="text-align:right">Clout module to implement passport</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/clout-js-modules/clout-parse">clout-parse</a></strong></td>
+<td style="text-align:right">Parse module</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/clout-js-modules/clout-mongoose">clout-mongoose</a></strong></td>
+<td style="text-align:right">Clout module to leverage mongoose for models</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/clout-js-modules/clout-18n">clout-18n</a></strong></td>
+<td style="text-align:right">Clout module to implement i18n</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/clout-js-modules/clout-socket-io">clout-socket-io</a></strong></td>
+<td style="text-align:right">Clout module to leverage socket.io</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/clout-js-modules/clout-sequelize">clout-sequelize</a></strong></td>
+<td style="text-align:right">Clout module to leverage sequelize for models</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/clout-js-modules/clout-flash">clout-flash</a></strong></td>
+<td style="text-align:right">Flash message middleware module for Clout-JS</td>
+</tr>
+</tbody>
+</table></article>
     </section>
 
 
@@ -108,7 +166,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 08 2018 00:02:08 GMT+0000 (GMT) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 08 2018 23:50:06 GMT+0000 (GMT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
