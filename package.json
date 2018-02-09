@@ -1,6 +1,6 @@
 {
   "name": "clout-js",
-  "version": "2.0.0-alpha",
+  "version": "2.0.0-alpha.1",
   "description": "Clean, simplistic, enterprise grade full-stack NodeJS framework",
   "main": "index.js",
   "scripts": {
