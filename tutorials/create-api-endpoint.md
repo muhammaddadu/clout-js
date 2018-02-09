@@ -19,7 +19,7 @@ module.exports = {
 3) Lets create another endpoint
 ```
 ...
-    get: {
+    anotherGet: {
         path: '/hello/:postcode:',
         method: 'get',
         fn(req, resp) {
