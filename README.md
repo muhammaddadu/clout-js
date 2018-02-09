@@ -63,7 +63,7 @@ Another example is ```NODE_ENV=production``` which would load the following file
 
 ## Clout-JS Module List
 | package-name | description |
-| ------------- | -------:|
+| ------------- | :------- |
 | **[clout-redis-session](https://github.com/clout-js-modules/clout-redis-session)** | Clout module to leverage Redis for sessions |
 | **[clout-passport](https://github.com/clout-js-modules/clout-passport)** | Clout module to implement passport |
 | **[clout-parse](https://github.com/clout-js-modules/clout-parse)** | Parse module |
