@@ -42,7 +42,7 @@ The following folders are default application searchpath.
 | Directory     | purpose       									|
 | ------------- | :------------------------------------------------ |
 | /conf 		| contains configuration w/ support for NODE_ENV 	|
-| /apis 		| contains apis for the application 				|
+| /apis 		| contains apis for the application 				| [Create API Endpoint](clout-stack.github.io/clout-js/tutorial-create-api-endpoint.html)
 | /hooks 		| hooks which can be invoked before an api 			|
 | /models 		| contains models (native support for sequalize) 	|
 | /public 		| public assets folder								|
