@@ -42,6 +42,7 @@
     "winston-daily-rotate-file": "^1.1.0"
   },
   "devDependencies": {
+    "eslint": "^4.17.0",
     "grunt": "^1.0.1",
     "grunt-jsdoc": "^2.1.0",
     "grunt-mocha-test": "^0.12.7",
