@@ -1,4 +1,4 @@
-## This Project can be found [here](https://github.com/clout-stack/clout-js) 
+## This project has been moved to [here](https://github.com/clout-stack/clout-js) 
 
 Clout Javascript Framework
 ===========
